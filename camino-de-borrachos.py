@@ -1,4 +1,5 @@
 import random
+from bokeh.plotting import figure, show
 
 # Clases base
 
@@ -73,8 +74,15 @@ def simulate_walk(steps, number_of_attempts, type_of_borracho):
 
     return distances
 
+def graph(x, y):
+    graph = figure(title='camino aleatorio', x_axis_label='steps', y_axis_label='distance') 
+    graph.line(x, y, legend='mean distance')
+
+    show(graph)
 
 def main(distances_of_walk, number_of_attempts, type_of_borracho):
+
+    mean_distance_per_walk = []
 
     for steps in distances_of_walk:
         distances = simulate_walk(steps, number_of_attempts, type_of_borracho)
@@ -82,10 +90,12 @@ def main(distances_of_walk, number_of_attempts, type_of_borracho):
         mean_distance = round(sum(distances) / len(distances), 4)
         max_distance = max(distances)
         min_distance = min(distances)
+        mean_distance_per_walk.append(mean_distance)
         print(f'{type_of_borracho.__name__} walk {steps}')
         print(f'Mean= {mean_distance}')
         print(f'Max= {max_distance}')
         print(f'Min= {min_distance}')
+    graph(distances_of_walk, mean_distance_per_walk)
 
 
 if __name__ == '__main__':
